@@ -8,7 +8,7 @@ export function Header() {
                     <img width="38" src={logo} alt="Pizza logo" />
                     <div>
                         <h1>Pizza Delivery</h1>
-                        <p>самая вкусная пицца во вселенной</p>
+                        <p>The most delicious pizza in the university</p>
                     </div>
                 </div>
                 <div className="header__cart">

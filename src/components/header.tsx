@@ -1,7 +1,14 @@
 import { Link } from 'react-router-dom'
 import logo from '../assets/img/pizza-logo.svg'
+import { Search } from './search'
 
-export function Header() {
+type Props = {
+    searchValue: string,
+    setSearchValue: (searchValue: string) => void
+}
+
+
+export function Header({ searchValue, setSearchValue }: Props) {
     return (
         <div className="header">
             <div className="container">
@@ -14,6 +21,8 @@ export function Header() {
                         </div>
                     </div>
                 </Link>
+
+                <Search searchValue={searchValue} setSearchValue={setSearchValue} />
 
                 <div className="header__cart">
                     <Link to="/cart" className="button button--cart">

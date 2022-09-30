@@ -4,9 +4,11 @@ import { PizzaBlock } from '../components/pizzaBlock'
 import Skeleton from '../components/pizzaBlock/skeleton'
 import { Sort } from '../components/sort'
 
-type Props = {}
+type Props = {
+    searchValue: string
+}
 
-export const Home = (props: Props) => {
+export const Home = ({ searchValue }: Props) => {
 
     const [items, setItems] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -19,6 +21,10 @@ export const Home = (props: Props) => {
 
     useEffect(() => {
         setIsLoading(true)
+
+        // backend searchvalue filter 
+        // const search = searchValue ? `&search=${searchValue}` : ''
+
         fetch(`https://62ff03f741165d66bfc7f607.mockapi.io/items?${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=${sortType.order}`)
             .then((response) => response.json())
             .then((response) => {
@@ -27,6 +33,16 @@ export const Home = (props: Props) => {
             })
         window.scrollTo(0, 0)
     }, [categoryId, sortType])
+
+    const pizzaz = items
+        .filter((obj: any) => {
+            if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
+                return true
+            }
+            return false
+        })
+        .map((obj: any) => (<PizzaBlock {...obj} key={obj.id} />))
+    const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
 
     return (
         <div className="container">
@@ -42,8 +58,9 @@ export const Home = (props: Props) => {
             <div className="content__items">
                 {
                     isLoading
-                        ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-                        : items.map((obj: any) => (<PizzaBlock {...obj} key={obj.id} />))
+                        ? skeletons
+                        : pizzaz
+                    // items.map((obj: any) => (<PizzaBlock {...obj} key={obj.id} />))
                 }
             </div>
         </div>

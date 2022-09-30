@@ -1,6 +1,8 @@
 import { useState } from 'react'
 
-export function Categories() {
+export function Categories({ value, onChangeCategory }) {
+
+    console.log(value)
 
     const categories = [
         'All',
@@ -11,18 +13,16 @@ export function Categories() {
         'Closed'
     ]
 
-    const [activeIndex, setActiveIndex] = useState(0)
-
     return (
         <div className="categories">
             <ul>
                 {
-                    categories.map((value, index) => (
+                    categories.map((categoryName, index) => (
                         <li
                             key={index}
-                            onClick={() => setActiveIndex(index)}
-                            className={activeIndex === index ? "active" : ''} >
-                            {value}
+                            onClick={() => onChangeCategory(index)}
+                            className={value === index ? "active" : ''} >
+                            {categoryName}
                         </li>
                     ))
                 }

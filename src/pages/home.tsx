@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Categories } from '../components/categories'
+import { Pagination } from '../components/pagination'
 import { PizzaBlock } from '../components/pizzaBlock'
 import Skeleton from '../components/pizzaBlock/skeleton'
 import { Sort } from '../components/sort'
@@ -11,8 +12,10 @@ type Props = {
 export const Home = ({ searchValue }: Props) => {
 
     const [items, setItems] = useState([])
+    const [countPizzaz, setCountPizzaz] = useState(0)
     const [isLoading, setIsLoading] = useState(true)
     const [categoryId, setCategoryId] = useState(0)
+    const [currentPage, setCurrentPage] = useState(1)
     const [sortType, setSortType] = useState({
         name: 'rating',
         sortProperty: 'rating',
@@ -25,14 +28,15 @@ export const Home = ({ searchValue }: Props) => {
         // backend searchvalue filter 
         // const search = searchValue ? `&search=${searchValue}` : ''
 
-        fetch(`https://62ff03f741165d66bfc7f607.mockapi.io/items?${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=${sortType.order}`)
+        fetch(`https://62ff03f741165d66bfc7f607.mockapi.io/items?page=${currentPage}&limit=4&${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=${sortType.order}`)
             .then((response) => response.json())
             .then((response) => {
-                setItems(response)
+                setItems(response.items);
+                setCountPizzaz(response.count)
                 setIsLoading(false)
             })
         window.scrollTo(0, 0)
-    }, [categoryId, sortType])
+    }, [categoryId, sortType, currentPage, countPizzaz])
 
     const pizzaz = items
         .filter((obj: any) => {
@@ -63,6 +67,7 @@ export const Home = ({ searchValue }: Props) => {
                     // items.map((obj: any) => (<PizzaBlock {...obj} key={obj.id} />))
                 }
             </div>
+            <Pagination onChange={(number: number) => { setCurrentPage(number) }} countPizzaz={countPizzaz} />
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { SearchContext } from '../App'
 import { Categories } from '../components/categories'
 import { Pagination } from '../components/pagination'
 import { PizzaBlock } from '../components/pizzaBlock'
@@ -6,10 +7,13 @@ import Skeleton from '../components/pizzaBlock/skeleton'
 import { Sort } from '../components/sort'
 
 type Props = {
-    searchValue: string
+    // searchValue: string
 }
 
-export const Home = ({ searchValue }: Props) => {
+export const Home = (props: Props) => {
+
+    // @ts-ignore
+    const { searchValue } = React.useContext(SearchContext)
 
     const [items, setItems] = useState([])
     const [countPizzaz, setCountPizzaz] = useState(0)

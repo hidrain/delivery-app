@@ -3,12 +3,12 @@ import logo from '../assets/img/pizza-logo.svg'
 import { Search } from './search'
 
 type Props = {
-    searchValue: string,
-    setSearchValue: (searchValue: string) => void
+    // searchValue: string,
+    // setSearchValue: (searchValue: string) => void
 }
 
 
-export function Header({ searchValue, setSearchValue }: Props) {
+export function Header(props: Props) {
     return (
         <div className="header">
             <div className="container">
@@ -22,7 +22,7 @@ export function Header({ searchValue, setSearchValue }: Props) {
                     </div>
                 </Link>
 
-                <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+                <Search />
 
                 <div className="header__cart">
                     <Link to="/cart" className="button button--cart">

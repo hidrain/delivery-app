@@ -1,20 +1,34 @@
 
-import React, { useRef } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import { SearchContext } from '../../App';
 import style from './search.module.scss'
+import debounce from 'lodash.debounce'
 
 type Props = {}
 
 export const Search = (props: Props) => {
 
+    const [value, setValue] = useState('')
     // @ts-ignore
-    const { searchValue, setSearchValue } = React.useContext(SearchContext)
+    const { setSearchValue } = React.useContext(SearchContext)
     const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>
-    console.log(inputRef)
 
     const onClickClear = () => {
         setSearchValue('')
+        setValue('')
         inputRef.current.focus()
+    }
+
+    const updateSearchValue = useCallback(
+        debounce((string) => {
+            setSearchValue(string)
+        }, 250),
+        [],
+    )
+
+    const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value)
+        updateSearchValue(e.target.value)
     }
 
     return (
@@ -50,10 +64,10 @@ export const Search = (props: Props) => {
                 ref={inputRef}
                 placeholder="Search..."
                 className={style.input}
-                value={searchValue}
-                onChange={e => setSearchValue(e.target.value)} />
+                value={value}
+                onChange={onChangeInput} />
 
-            {searchValue && <svg
+            {value && <svg
                 onClick={onClickClear}
                 className={style.clear_icon}
                 xmlns="http://www.w3.org/2000/svg"

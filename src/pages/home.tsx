@@ -7,7 +7,7 @@ import { Pagination } from '../components/pagination'
 import { PizzaBlock } from '../components/pizzaBlock'
 import Skeleton from '../components/pizzaBlock/skeleton'
 import { Sort } from '../components/sort'
-import { setCategoryId } from '../redux/slices/filterSlice'
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice'
 import { RootState } from '../redux/store'
 
 type Props = {}
@@ -15,9 +15,10 @@ type Props = {}
 export const Home = (props: Props) => {
 
     const dispatch = useDispatch()
-    const { categoryId, sortType } = useSelector((state: RootState) => ({
+    const { categoryId, sortType, currentPage } = useSelector((state: RootState) => ({
         categoryId: state.filter.categoryId,
-        sortType: state.filter.sort
+        sortType: state.filter.sort,
+        currentPage: state.filter.currentPage,
     }))
 
     // @ts-ignore
@@ -26,10 +27,12 @@ export const Home = (props: Props) => {
     const [items, setItems] = useState([])
     const [countPizzaz, setCountPizzaz] = useState(0)
     const [isLoading, setIsLoading] = useState(true)
-    const [currentPage, setCurrentPage] = useState(1)
 
     const onChangeCategory = (id: number) => {
         dispatch(setCategoryId(id))
+    }
+    const onChangePage = (number: number) => {
+        dispatch(setCurrentPage(number))
     }
 
     useEffect(() => {
@@ -76,7 +79,10 @@ export const Home = (props: Props) => {
                     // items.map((obj: any) => (<PizzaBlock {...obj} key={obj.id} />))
                 }
             </div>
-            <Pagination onChange={(number: number) => { setCurrentPage(number) }} countPizzaz={countPizzaz} />
+            <Pagination
+                currentPage={currentPage}
+                onChange={onChangePage}
+                countPizzaz={countPizzaz} />
         </div>
     )
 }

@@ -7,7 +7,8 @@ interface FilterState {
         name: string,
         sortProperty: string,
         order: string
-    }
+    },
+    currentPage: number
 }
 
 const initialState: FilterState = {
@@ -16,7 +17,8 @@ const initialState: FilterState = {
         name: 'rating',
         sortProperty: 'rating',
         order: 'desc'
-    }
+    },
+    currentPage: 1
 }
 
 export const filterSlice = createSlice({
@@ -28,12 +30,15 @@ export const filterSlice = createSlice({
         },
         setSort: (state, action: PayloadAction<any>) => {
             state.sort = action.payload
+        },
+        setCurrentPage: (state, action: PayloadAction<number>) => {
+            state.currentPage = action.payload
         }
         // Use the PayloadAction type to declare the contents of `action.payload`
     },
 })
 
-export const { setCategoryId, setSort } = filterSlice.actions
+export const { setCategoryId, setSort, setCurrentPage } = filterSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectFilter = (state: RootState) => state.filter.categoryId

@@ -1,17 +1,21 @@
 
-import React from 'react';
+import React, { useRef } from 'react'
 import { SearchContext } from '../../App';
 import style from './search.module.scss'
 
-type Props = {
-    // searchValue: string,
-    // setSearchValue: (searchValue: string) => void
-}
+type Props = {}
 
 export const Search = (props: Props) => {
 
     // @ts-ignore
     const { searchValue, setSearchValue } = React.useContext(SearchContext)
+    const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>
+    console.log(inputRef)
+
+    const onClickClear = () => {
+        setSearchValue('')
+        inputRef.current.focus()
+    }
 
     return (
         <div className={style.root}>
@@ -43,13 +47,14 @@ export const Search = (props: Props) => {
             </svg>
 
             <input
+                ref={inputRef}
                 placeholder="Search..."
                 className={style.input}
                 value={searchValue}
                 onChange={e => setSearchValue(e.target.value)} />
 
             {searchValue && <svg
-                onClick={() => setSearchValue('')}
+                onClick={onClickClear}
                 className={style.clear_icon}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

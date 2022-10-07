@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { SearchContext } from '../App'
 import { Categories } from '../components/categories'
 import { Pagination } from '../components/pagination'
 import { PizzaBlock } from '../components/pizzaBlock'
 import Skeleton from '../components/pizzaBlock/skeleton'
 import { Sort } from '../components/sort'
+import { setCategoryId } from '../redux/slices/filterSlice'
+import { RootState } from '../redux/store'
 
-type Props = {
-    // searchValue: string
-}
+type Props = {}
 
 export const Home = (props: Props) => {
+
+    const dispatch = useDispatch()
+    const { categoryId, sortType } = useSelector((state: RootState) => ({
+        categoryId: state.filter.categoryId,
+        sortType: state.filter.sort
+    }))
 
     // @ts-ignore
     const { searchValue } = React.useContext(SearchContext)
@@ -18,13 +25,11 @@ export const Home = (props: Props) => {
     const [items, setItems] = useState([])
     const [countPizzaz, setCountPizzaz] = useState(0)
     const [isLoading, setIsLoading] = useState(true)
-    const [categoryId, setCategoryId] = useState(0)
     const [currentPage, setCurrentPage] = useState(1)
-    const [sortType, setSortType] = useState({
-        name: 'rating',
-        sortProperty: 'rating',
-        order: 'desc'
-    })
+
+    const onChangeCategory = (id: number) => {
+        dispatch(setCategoryId(id))
+    }
 
     useEffect(() => {
         setIsLoading(true)
@@ -57,10 +62,8 @@ export const Home = (props: Props) => {
             <div className="content__top">
                 <Categories
                     value={categoryId}
-                    onChangeCategory={(index: any) => setCategoryId(index)} />
-                <Sort
-                    value={sortType}
-                    onChangeSort={(index: any) => setSortType(index)} />
+                    onChangeCategory={onChangeCategory} />
+                <Sort />
             </div>
             <h2 className="content__title">All pizzas</h2>
             <div className="content__items">

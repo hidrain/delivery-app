@@ -23,7 +23,7 @@ export const Search = (props: Props) => {
                 viewBox="0 0 32 32"
                 width="32px">
                 <title /><desc /><defs />
-                <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
+                <g fill="none" fillRule="evenodd" id="Page-1" stroke="none" strokeWidth="1">
                     <g fill="#929292" id="icon-111-search">
                         <path d="M19.4271164,21.4271164 C18.0372495,22.4174803 
                         16.3366522,23 14.5,23 C9.80557939,23 6,19.1944206 6,14.5 

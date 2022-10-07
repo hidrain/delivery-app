@@ -2,8 +2,6 @@ import { useState } from 'react'
 
 export function Categories({ value, onChangeCategory }) {
 
-    console.log(value)
-
     const categories = [
         'All',
         'Meat',

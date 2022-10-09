@@ -26,15 +26,14 @@ export function Sort() {
 
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (!e.path.includes(sortRef.current)) {
-                setOpen(false)
-            }
+            let path = e.composedPath().includes(sortRef.current)
+            if (!path) setOpen(false);
         }
-        document.body.addEventListener('click', handleClickOutside)
+        // document.body.addEventListener('click', handleClickOutside)
 
-        return () => {
-            document.body.removeEventListenerr('click', handleClickOutside)
-        }
+        // return () => {
+        //     document.body.removeEventListenerr('click', handleClickOutside)
+        // }
     }, [])
 
     return (

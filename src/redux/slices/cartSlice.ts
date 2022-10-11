@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
 interface CartState {
     totalPrice: number,
@@ -58,9 +59,9 @@ export const cartSlice = createSlice({
     },
 })
 
+export const selectCart = (state: RootState) => state.cart
+export const selectCartItemById = (id: number) => (state: RootState) =>
+    state.cart.items.find(obj => obj.id === id)
+
 export const { addProduct, minusProduct, removeProduct, clearProducts } = cartSlice.actions
-
-// Other code such as selectors can use the imported `RootState` type
-// export const selectFilter = (state: RootState) => state.filter.categoryId
-
 export default cartSlice.reducer

@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { SearchContext } from '../App'
 import { Categories } from '../components/categories'
 import { Pagination } from '../components/pagination'
 import { PizzaBlock } from '../components/pizzaBlock'
 import Skeleton from '../components/pizzaBlock/skeleton'
 import { Sort } from '../components/sort'
-import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice'
-import { RootState } from '../redux/store'
+import { selectFilter, setCategoryId, setCurrentPage } from '../redux/slices/filterSlice'
+import { useAppDispatch } from '../redux/store'
+import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice'
+import { Link } from 'react-router-dom'
 
 type Props = {}
 
 export const Home = (props: Props) => {
 
-    const dispatch = useDispatch()
-    const { categoryId, sortType, currentPage } = useSelector((state: RootState) => ({
-        categoryId: state.filter.categoryId,
-        sortType: state.filter.sort,
-        currentPage: state.filter.currentPage,
-    }))
-
-    // @ts-ignore
-    const { searchValue } = React.useContext(SearchContext)
-
-    const [items, setItems] = useState([])
-    const [countPizzaz, setCountPizzaz] = useState(0)
-    const [isLoading, setIsLoading] = useState(true)
+    const dispatch = useAppDispatch()
+    const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter)
+    const { status, items } = useSelector(selectPizzaData)
 
     const onChangeCategory = (id: number) => {
         dispatch(setCategoryId(id))
@@ -35,22 +25,33 @@ export const Home = (props: Props) => {
         dispatch(setCurrentPage(number))
     }
 
-    useEffect(() => {
-        setIsLoading(true)
-
+    const getPizzas = () => {
         // backend searchvalue filter 
         // const search = searchValue ? `&search=${searchValue}` : ''
 
-        axios
-            .get(`https://62ff03f741165d66bfc7f607.mockapi.io/items?page=${currentPage}&limit=4&${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=${sortType.order}`
-            )
-            .then(response => {
-                setItems(response.data.items);
-                setCountPizzaz(response.data.count)
-                setIsLoading(false)
-            })
+        // await axios
+        //     .get(`https://62ff03f741165d66bfc7f607.mockapi.io/items?page=${currentPage}&limit=4&${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=${sortType.order}`
+        //     )
+        //     .then(response => {
+        //         setItems(response.data.items);
+        //         setCountPizzaz(response.data.count)
+        //         setIsLoading(false)
+        //         console.log(1)
+        //     })
+        //     .catch(err => {
+        //         setIsLoading(false)
+        //     })
+
+        const params = { currentPage, categoryId, sort }
+        dispatch(fetchPizzas(params));
+
         window.scrollTo(0, 0)
-    }, [categoryId, sortType, currentPage, countPizzaz])
+    }
+
+
+    useEffect(() => {
+        getPizzas()
+    }, [categoryId, sort, currentPage])
 
     const pizzaz = items
         .filter((obj: any) => {
@@ -59,7 +60,12 @@ export const Home = (props: Props) => {
             }
             return false
         })
-        .map((obj: any) => (<PizzaBlock {...obj} key={obj.id} />))
+        .map((obj: any) => (
+            <Link to={`pizza/${obj.id}`} key={obj.id}>
+                <PizzaBlock {...obj} />
+            </Link>
+        ))
+
     const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
 
     return (
@@ -70,19 +76,27 @@ export const Home = (props: Props) => {
                     onChangeCategory={onChangeCategory} />
                 <Sort />
             </div>
+
             <h2 className="content__title">All pizzas</h2>
-            <div className="content__items">
-                {
-                    isLoading
-                        ? skeletons
-                        : pizzaz
-                    // items.map((obj: any) => (<PizzaBlock {...obj} key={obj.id} />))
-                }
-            </div>
+
+            {
+                status === 'error' ? <div className="content__error-info">
+                    <h2>Error <span>😕</span></h2>
+                    <p>Failed to get pizzas</p>
+                </div> : <div className="content__items">
+                    {
+                        status === 'loading'
+                            ? skeletons
+                            : pizzaz
+                        // items.map((obj: any) => (<PizzaBlock {...obj} key={obj.id} />))
+                    }
+                </div>
+            }
+
             <Pagination
                 currentPage={currentPage}
                 onChange={onChangePage}
-                countPizzaz={countPizzaz} />
+            />
         </div>
     )
 }

@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
 interface FilterState {
+    searchValue: string,
     categoryId: number,
     sort: {
         name: string,
@@ -12,6 +14,7 @@ interface FilterState {
 }
 
 const initialState: FilterState = {
+    searchValue: '',
     categoryId: 0,
     sort: {
         name: 'rating',
@@ -28,6 +31,9 @@ export const filterSlice = createSlice({
         setCategoryId: (state, action: PayloadAction<number>) => {
             state.categoryId = action.payload
         },
+        setSearchValue: (state, action: PayloadAction<string>) => {
+            state.searchValue = action.payload
+        },
         setSort: (state, action: PayloadAction<any>) => {
             state.sort = action.payload
         },
@@ -38,9 +44,8 @@ export const filterSlice = createSlice({
     },
 })
 
-export const { setCategoryId, setSort, setCurrentPage } = filterSlice.actions
+export const selectSort = (state: RootState) => state.filter.sort
+export const selectFilter = (state: RootState) => state.filter
 
-// Other code such as selectors can use the imported `RootState` type
-// export const selectFilter = (state: RootState) => state.filter.categoryId
-
+export const { setCategoryId, setSort, setCurrentPage, setSearchValue } = filterSlice.actions
 export default filterSlice.reducer

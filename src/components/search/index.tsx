@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useCallback } from 'react'
 import style from './search.module.scss'
 import debounce from 'lodash.debounce'

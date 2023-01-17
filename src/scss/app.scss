@@ -62,6 +62,7 @@ body {
 
     @media (max-width: 1060px) {
       grid-template-columns: repeat(2, 1fr);
+      justify-items: center;
     }
 
     @media (max-width: 730px) {

@@ -1,7 +1,5 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../redux/store'
 import { CartItem } from '../components/cartItem'
 import { clearProducts, selectCart } from '../redux/slices/cartSlice'
 import { CartEmpty } from '../components/cartEmpty'
@@ -57,7 +55,7 @@ export const Cart = (props: Props) => {
                                 strokeLinecap="round" strokeLinejoin="round">
                             </path>
                         </svg>
-                        Корзина
+                        Cart
                     </h2>
 
                     <div
@@ -87,7 +85,7 @@ export const Cart = (props: Props) => {
                                 strokeWidth="1.2" strokeLinecap="round"
                                 strokeLinejoin="round"></path>
                         </svg>
-                        <span>Очистить корзину</span>
+                        <span>Clean the cart</span>
                     </div>
                 </div>
 
@@ -99,8 +97,8 @@ export const Cart = (props: Props) => {
 
                 <div className="cart__bottom">
                     <div className="cart__bottom-details">
-                        <span> Всего пицц: <b>{totalCount} шт.</b> </span>
-                        <span> Сумма заказа: <b>{totalPrice} ₽</b> </span>
+                        <span> Total pizzas: <b>{totalCount} pcs.</b> </span>
+                        <span> Order price: <b>{totalPrice} ₽</b> </span>
                     </div>
                     <div className="cart__bottom-buttons">
                         <Link className="button button--outline button--add go-back-btn"
@@ -111,10 +109,10 @@ export const Cart = (props: Props) => {
                                     strokeWidth="1.5" strokeLinecap="round"
                                     strokeLinejoin="round"></path>
                             </svg>
-                            <span>Вернуться назад</span>
+                            <span>Back</span>
                         </Link>
                         <div className="button pay-btn">
-                            <span>Оплатить сейчас</span>
+                            <span>Pay now</span>
                         </div>
                     </div>
                 </div>

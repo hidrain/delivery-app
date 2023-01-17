@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { Categories } from '../components/categories'
 import { Pagination } from '../components/pagination'
 import { PizzaBlock } from '../components/pizzaBlock'
@@ -28,20 +28,6 @@ export const Home = (props: Props) => {
     const getPizzas = () => {
         // backend searchvalue filter 
         // const search = searchValue ? `&search=${searchValue}` : ''
-
-        // await axios
-        //     .get(`https://62ff03f741165d66bfc7f607.mockapi.io/items?page=${currentPage}&limit=4&${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=${sortType.order}`
-        //     )
-        //     .then(response => {
-        //         setItems(response.data.items);
-        //         setCountPizzaz(response.data.count)
-        //         setIsLoading(false)
-        //         console.log(1)
-        //     })
-        //     .catch(err => {
-        //         setIsLoading(false)
-        //     })
-
         const params = { currentPage, categoryId, sort }
         dispatch(fetchPizzas(params));
 
@@ -67,6 +53,7 @@ export const Home = (props: Props) => {
         ))
 
     const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
+    const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
 
     return (
         <div className="container">
@@ -87,7 +74,7 @@ export const Home = (props: Props) => {
                     {
                         status === 'loading'
                             ? skeletons
-                            : pizzaz
+                            : pizzas
                         // items.map((obj: any) => (<PizzaBlock {...obj} key={obj.id} />))
                     }
                 </div>

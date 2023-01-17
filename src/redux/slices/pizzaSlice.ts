@@ -23,14 +23,13 @@ export const fetchPizzas = createAsyncThunk('pizza/fetchPizzasStatus', async (pa
     const { currentPage, categoryId, sort } = params
     const response = await axios.get(`https://62ff03f741165d66bfc7f607.mockapi.io/items?page=${currentPage}&limit=4&${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sort.sortProperty}&order=${sort.order}`)
     return response.data
-}
-)
+})
 
 export const pizzaSlice = createSlice({
     name: 'pizza',
     initialState,
     reducers: {
-        setItems: (state, action: PayloadAction<any>) => {
+        setItems: (state, action: any) => {
             state.items = action.payload.items
         },
     },

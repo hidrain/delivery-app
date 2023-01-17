@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import cartEmptyImg from '../assets/img/empty-cart.png'
 
@@ -12,7 +11,7 @@ export const CartEmpty = (props: Props) => {
                 <p>You probably haven't ordered pizza yet.
                     <br />To order a pizza go to the main page.
                 </p>
-                <img src={cartEmptyImg} />
+                <img src={cartEmptyImg} alt='empty cart' />
                 <Link className="button button--black" to="/">
                     <span>Back to home</span>
                 </Link>

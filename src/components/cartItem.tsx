@@ -1,8 +1,7 @@
-import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addProduct, minusProduct, removeProduct } from '../redux/slices/cartSlice'
 
-type Props = {
+export type PizzaItemProps = {
     id: number,
     title: string,
     type: any,
@@ -12,7 +11,7 @@ type Props = {
     imageUrl: string
 }
 
-export const CartItem = ({ id, title, type, size, price, count, imageUrl }: Props) => {
+export const CartItem = ({ id, title, type, size, price, count, imageUrl }: PizzaItemProps) => {
 
     const dispatch = useDispatch()
 

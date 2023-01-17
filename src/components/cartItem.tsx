@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux'
 import { addProduct, minusProduct, removeProduct } from '../redux/slices/cartSlice'
 
 export type PizzaItemProps = {
-    id: number,
+    id: string,
     title: string,
     type: any,
     size: number,
@@ -44,6 +44,7 @@ export const CartItem = ({ id, title, type, size, price, count, imageUrl }: Pizz
             </div>
             <div className="cart__item-count">
                 <button
+                    disabled={count === 1}
                     onClick={onClickMinus}
                     className="button button--outline button--circle cart__item-count-minus">
                     <svg width="10" height="10" viewBox="0 0 10 10"

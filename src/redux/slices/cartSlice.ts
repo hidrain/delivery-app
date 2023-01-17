@@ -49,20 +49,20 @@ export const cartSlice = createSlice({
 
             // state.totalPrice += action.payload.price
         },
-        plusProduct: (state, action: PayloadAction<any>) => {
+        plusProduct: (state, action: PayloadAction<string>) => {
             const findItem = state.items.find(obj => obj.id === action.payload)
             if (findItem) {
                 findItem.count++
             }
         },
-        minusProduct: (state, action: PayloadAction<any>) => {
+        minusProduct: (state, action: PayloadAction<string>) => {
             const findItem = state.items.find(obj => obj.id === action.payload)
-            if (findItem && findItem.count > 0) {
+            if (findItem && findItem.count > 1) {
                 findItem.count--
             }
             state.totalPrice = calcTotalPrice(state.items);
         },
-        removeProduct: (state, action: PayloadAction<any>) => {
+        removeProduct: (state, action: PayloadAction<string>) => {
             state.items = state.items.filter(obj => obj.id !== action.payload)
             state.totalPrice = calcTotalPrice(state.items);
         },

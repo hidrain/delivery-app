@@ -85,7 +85,7 @@ export const Cart = (props: Props) => {
                                 strokeWidth="1.2" strokeLinecap="round"
                                 strokeLinejoin="round"></path>
                         </svg>
-                        <span>Clean the cart</span>
+                        <span>Clear the cart</span>
                     </div>
                 </div>
 
